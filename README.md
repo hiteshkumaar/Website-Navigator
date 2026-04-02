@@ -52,6 +52,32 @@ npm.cmd run dev
 
 Try `sample/urls.csv`.
 
+## Deployment (Render + Vercel)
+
+Yes — deploy backend to Render and frontend to Vercel.
+
+### Backend on Render
+
+- Create a **Web Service** from this repo
+- Root directory: `server`
+- Build command: `npm install`
+- Start command: `npm start`
+- Environment:
+  - `CORS_ORIGIN` = your Vercel URL(s) (comma-separated), e.g. `https://your-app.vercel.app`
+
+After deploy, note your Render URL (example): `https://your-service.onrender.com`
+
+### Frontend on Vercel
+
+- Import the repo into Vercel
+- Root directory: `client`
+- Build command: `npm run build`
+- Output directory: `dist`
+- Environment:
+  - `VITE_API_BASE_URL` = your Render backend URL, e.g. `https://your-service.onrender.com`
+
+Redeploy the Vercel project after setting env vars.
+
 ## Importing a Google Sheet
 
 This app supports **public** sheets via CSV export.

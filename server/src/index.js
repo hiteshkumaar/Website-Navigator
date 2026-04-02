@@ -7,7 +7,16 @@ import { extractUrlsFromCsvBuffer } from "./parseCsv.js";
 import { normalizeAndDedupeUrls, toGoogleSheetCsvExportUrl } from "./urlExtract.js";
 
 const app = express();
-app.use(cors());
+const corsOrigins = (process.env.CORS_ORIGIN || "")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+
+app.use(
+  cors({
+    origin: corsOrigins.length ? corsOrigins : true
+  })
+);
 app.use(express.json({ limit: "2mb" }));
 
 const upload = multer({
