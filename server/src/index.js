@@ -59,10 +59,22 @@ app.post("/api/parse/google-sheet", async (req, res) => {
     }
 
     const response = await fetch(exportUrl, {
-      headers: { "User-Agent": "website-navigator/1.0" }
+      headers: { "User-Agent": "website-navigator/1.0", Accept: "text/csv,*/*;q=0.8" }
     });
     if (!response.ok) {
-      return res.status(400).json({ error: "Failed to fetch sheet CSV.", details: `${response.status} ${response.statusText}` });
+      let bodySnippet = "";
+      try {
+        const text = await response.text();
+        bodySnippet = text.slice(0, 500);
+      } catch {
+        bodySnippet = "";
+      }
+      return res.status(400).json({
+        error: "Failed to fetch sheet CSV.",
+        details: `${response.status} ${response.statusText}`,
+        exportUrl,
+        bodySnippet
+      });
     }
 
     const arrayBuffer = await response.arrayBuffer();
@@ -83,4 +95,3 @@ app.listen(port, () => {
   // eslint-disable-next-line no-console
   console.log(`Server listening on http://localhost:${port}`);
 });
-

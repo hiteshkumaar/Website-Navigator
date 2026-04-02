@@ -73,15 +73,13 @@ export function toGoogleSheetCsvExportUrl(inputUrl) {
       const sheetId = match?.[1];
       if (!sheetId) return null;
 
-      // Try to preserve gid if present, otherwise default to first sheet (gid=0).
-      const gid =
-        parsed.searchParams.get("gid") ||
-        parsed.hash?.match(/gid=(\d+)/)?.[1] ||
-        "0";
+      // Preserve gid if present. If it's not present, omit it to let Google default
+      // to the first visible sheet (some files return 400 for an incorrect gid).
+      const gid = parsed.searchParams.get("gid") || parsed.hash?.match(/gid=(\d+)/)?.[1] || null;
 
       const exportUrl = new URL(`https://docs.google.com/spreadsheets/d/${sheetId}/export`);
       exportUrl.searchParams.set("format", "csv");
-      exportUrl.searchParams.set("gid", gid);
+      if (gid) exportUrl.searchParams.set("gid", gid);
       return exportUrl.toString();
     }
   } catch {
@@ -90,4 +88,3 @@ export function toGoogleSheetCsvExportUrl(inputUrl) {
 
   return null;
 }
-
