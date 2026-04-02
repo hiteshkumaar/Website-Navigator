@@ -95,10 +95,6 @@ You can also paste a normal “Share” URL — the backend will try to convert 
 - Put URLs in any column (the parser scans all cells).
 - Examples: `https://example.com`, `http://example.com`, `www.example.com`
 
-## Screenshots & Demo Video (Submission)
-
-- Screenshots: capture the Import screen and the Navigator screen.
-- Demo video (2–5 min): show upload/import, URL list, Previous/Next navigation, and “Open in new tab”.
 
 ## Project Structure
 
